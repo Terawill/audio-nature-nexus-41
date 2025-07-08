@@ -44,8 +44,9 @@ export class FileUploadService {
       return 'audio/mp4';
     }
     
-    if (originalType === 'audio/x-flac' || originalType === 'application/x-flac' || fileName.endsWith('.flac')) {
-      return 'audio/flac';
+    // Handle FLAC files - Supabase doesn't support audio/flac, so we use audio/mpeg as fallback
+    if (originalType === 'audio/flac' || originalType === 'audio/x-flac' || originalType === 'application/x-flac' || fileName.endsWith('.flac')) {
+      return 'audio/mpeg';
     }
     
     // Normalize problematic MIME types for video
@@ -63,18 +64,15 @@ export class FileUploadService {
   private static validateAudioFile(file: File): boolean {
     const normalizedMimeType = this.normalizeMimeType(file);
     
-    // Accept common audio MIME types
+    // Accept common audio MIME types (including normalized ones)
     const validMimeTypes = [
-      'audio/mpeg',      // .mp3
+      'audio/mpeg',      // .mp3 and FLAC fallback
       'audio/wav',       // .wav (normalized)
       'audio/wave',      // .wav (alternative)
       'audio/ogg',       // .ogg
       'audio/vorbis',    // .ogg (alternative)
       'audio/mp4',       // .m4a (normalized)
       'audio/aac',       // .aac
-      'audio/flac',      // .flac
-      'audio/x-flac',    // .flac (alternative)
-      'application/x-flac', // .flac (another alternative)
       'audio/webm'       // .webm audio
     ];
 
@@ -221,6 +219,8 @@ export class FileUploadService {
           uploadFile = new File([file], file.name, { type: normalizedType });
         }
       }
+
+      console.log(`📤 Final upload MIME type: ${uploadFile.type}`);
 
       // Upload file to Supabase Storage
       const { data, error } = await supabase.storage
