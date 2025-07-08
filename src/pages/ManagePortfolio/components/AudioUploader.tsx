@@ -29,7 +29,7 @@ export const AudioUploader: React.FC<AudioUploaderProps> = ({
       if (!file.type.startsWith('audio/')) {
         toast({
           title: "Invalid file type",
-          description: "Please upload an audio file (MP3, WAV, etc.)",
+          description: "Please upload an audio file (MP3, WAV, FLAC, etc.)",
           variant: "destructive"
         });
         return;
@@ -37,10 +37,10 @@ export const AudioUploader: React.FC<AudioUploaderProps> = ({
       
       // Check file size
       const fileSizeInMB = file.size / 1024 / 1024;
-      if (fileSizeInMB > 10) {
+      if (fileSizeInMB > 500) {
         toast({
           title: "Audio file too large",
-          description: "Please use an audio file smaller than 10MB",
+          description: "Please use an audio file smaller than 500MB",
           variant: "destructive"
         });
         return;
@@ -68,7 +68,7 @@ export const AudioUploader: React.FC<AudioUploaderProps> = ({
             id="audio"
             className="cursor-pointer"
             type="file"
-            accept="audio/*"
+            accept="audio/*,.wav,.mp3,.ogg,.m4a,.aac,.flac,.webm"
             onChange={handleAudioUpload}
           />
         </div>
@@ -85,7 +85,7 @@ export const AudioUploader: React.FC<AudioUploaderProps> = ({
         </span>
       </div>
       <p className="text-xs text-muted-foreground mt-1">
-        Upload MP3, WAV, or other audio files (max 10MB)
+        Upload MP3, WAV, FLAC, or other audio files (max 500MB)
       </p>
       {currentItem.audioUrl && (
         <div className="mt-2">

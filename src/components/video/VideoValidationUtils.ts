@@ -1,4 +1,3 @@
-
 export interface VideoValidationResult {
   isValid: boolean;
   error?: string;
@@ -26,7 +25,7 @@ export class VideoValidationUtils {
     '.mp4', '.webm', '.mov', '.avi', '.ogv'
   ];
 
-  private static readonly MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB
+  private static readonly MAX_FILE_SIZE = 500 * 1024 * 1024; // 500MB
 
   static validateVideoUrl(url?: string): boolean {
     if (!url || typeof url !== 'string') return false;
@@ -81,7 +80,7 @@ export class VideoValidationUtils {
     if (file.size > this.MAX_FILE_SIZE) {
       return {
         isValid: false,
-        error: `File size (${(file.size / 1024 / 1024).toFixed(2)}MB) exceeds maximum allowed size of 100MB`,
+        error: `File size (${(file.size / 1024 / 1024).toFixed(2)}MB) exceeds maximum allowed size of 500MB`,
         fileInfo
       };
     }

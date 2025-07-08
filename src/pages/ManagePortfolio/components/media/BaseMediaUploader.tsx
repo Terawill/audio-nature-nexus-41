@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -55,8 +56,8 @@ export const BaseMediaUploader: React.FC<BaseMediaUploaderProps> = ({
   const getMaxSize = () => {
     switch (type) {
       case "image": return 10; // 10MB
-      case "audio": return 50; // 50MB
-      case "video": return 100; // 100MB
+      case "audio": return 500; // 500MB
+      case "video": return 500; // 500MB
       default: return 10;
     }
   };
@@ -92,7 +93,7 @@ export const BaseMediaUploader: React.FC<BaseMediaUploaderProps> = ({
       const audioMimeTypes = [
         'audio/mpeg', 'audio/wav', 'audio/wave', 'audio/x-wav',
         'audio/ogg', 'audio/vorbis', 'audio/mp4', 'audio/aac',
-        'audio/flac', 'audio/webm'
+        'audio/flac', 'audio/x-flac', 'application/x-flac', 'audio/webm'
       ];
       const audioExtensions = ['.mp3', '.wav', '.ogg', '.m4a', '.aac', '.flac', '.webm'];
       const hasValidMime = audioMimeTypes.includes(fileType);

@@ -119,7 +119,7 @@ export const AudioUploadEnhanced: React.FC<AudioUploadEnhancedProps> = ({
                   <p className="text-sm text-red-700 mt-1">{uploadError}</p>
                   <div className="mt-2 text-xs text-red-600">
                     <p><strong>Supported formats:</strong> MP3, WAV, OGG, M4A, AAC, FLAC, WebM</p>
-                    <p><strong>Max file size:</strong> 50MB</p>
+                    <p><strong>Max file size:</strong> 500MB</p>
                   </div>
                 </div>
               </div>

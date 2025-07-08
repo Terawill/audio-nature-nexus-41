@@ -44,7 +44,7 @@ export class FileUploadService {
       return 'audio/mp4';
     }
     
-    if (originalType === 'audio/x-flac' || fileName.endsWith('.flac')) {
+    if (originalType === 'audio/x-flac' || originalType === 'application/x-flac' || fileName.endsWith('.flac')) {
       return 'audio/flac';
     }
     
@@ -73,6 +73,8 @@ export class FileUploadService {
       'audio/mp4',       // .m4a (normalized)
       'audio/aac',       // .aac
       'audio/flac',      // .flac
+      'audio/x-flac',    // .flac (alternative)
+      'application/x-flac', // .flac (another alternative)
       'audio/webm'       // .webm audio
     ];
 
@@ -136,8 +138,8 @@ export class FileUploadService {
   }
 
   private static async compressAudioIfNeeded(file: File): Promise<File> {
-    // For files larger than 25MB, we should consider compression
-    const maxSizeBeforeCompression = 25 * 1024 * 1024; // 25MB
+    // For files larger than 250MB, we should consider compression
+    const maxSizeBeforeCompression = 250 * 1024 * 1024; // 250MB
     
     if (file.size > maxSizeBeforeCompression) {
       console.log(`🗜️ File size (${(file.size / 1024 / 1024).toFixed(2)}MB) exceeds threshold, considering compression`);
@@ -149,8 +151,8 @@ export class FileUploadService {
   }
 
   private static async compressVideoIfNeeded(file: File): Promise<File> {
-    // For files larger than 50MB, we should consider compression
-    const maxSizeBeforeCompression = 50 * 1024 * 1024; // 50MB
+    // For files larger than 250MB, we should consider compression
+    const maxSizeBeforeCompression = 250 * 1024 * 1024; // 250MB
     
     if (file.size > maxSizeBeforeCompression) {
       console.log(`🗜️ Video file size (${(file.size / 1024 / 1024).toFixed(2)}MB) exceeds threshold, considering compression`);

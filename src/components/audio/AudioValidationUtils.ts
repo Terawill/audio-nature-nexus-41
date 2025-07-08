@@ -21,6 +21,8 @@ export class AudioValidationUtils {
     'audio/mp4',       // .m4a
     'audio/aac',       // .aac
     'audio/flac',      // .flac
+    'audio/x-flac',    // .flac (alternative)
+    'application/x-flac', // .flac (another alternative)
     'audio/webm'       // .webm audio
   ];
 
@@ -28,7 +30,7 @@ export class AudioValidationUtils {
     '.mp3', '.wav', '.ogg', '.m4a', '.aac', '.flac', '.webm'
   ];
 
-  private static readonly MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+  private static readonly MAX_FILE_SIZE = 500 * 1024 * 1024; // 500MB
 
   static validateAudioUrl(url?: string): boolean {
     if (!url || typeof url !== 'string') return false;
@@ -65,7 +67,7 @@ export class AudioValidationUtils {
       return 'audio/mp4';
     }
     
-    if (originalType === 'audio/x-flac' || lowerFileName.endsWith('.flac')) {
+    if (originalType === 'audio/x-flac' || originalType === 'application/x-flac' || lowerFileName.endsWith('.flac')) {
       return 'audio/flac';
     }
     
@@ -87,7 +89,7 @@ export class AudioValidationUtils {
     if (file.size > this.MAX_FILE_SIZE) {
       return {
         isValid: false,
-        error: `File size (${(file.size / 1024 / 1024).toFixed(2)}MB) exceeds maximum allowed size of 50MB`,
+        error: `File size (${(file.size / 1024 / 1024).toFixed(2)}MB) exceeds maximum allowed size of 500MB`,
         fileInfo
       };
     }
