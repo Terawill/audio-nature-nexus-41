@@ -30,7 +30,7 @@ export class AudioValidationUtils {
     '.mp3', '.wav', '.ogg', '.m4a', '.aac', '.flac', '.webm'
   ];
 
-  private static readonly MAX_FILE_SIZE = 500 * 1024 * 1024; // 500MB
+  private static readonly MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB to match Supabase limits
 
   static validateAudioUrl(url?: string): boolean {
     if (!url || typeof url !== 'string') return false;
@@ -89,7 +89,7 @@ export class AudioValidationUtils {
     if (file.size > this.MAX_FILE_SIZE) {
       return {
         isValid: false,
-        error: `File size (${(file.size / 1024 / 1024).toFixed(2)}MB) exceeds maximum allowed size of 500MB`,
+        error: `File size (${(file.size / 1024 / 1024).toFixed(2)}MB) exceeds maximum allowed size of 50MB. Please compress your file or upgrade your Supabase plan for larger file limits.`,
         fileInfo
       };
     }

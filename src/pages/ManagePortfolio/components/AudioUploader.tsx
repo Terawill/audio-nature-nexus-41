@@ -35,12 +35,12 @@ export const AudioUploader: React.FC<AudioUploaderProps> = ({
         return;
       }
       
-      // Check file size
+      // Check file size against Supabase limits
       const fileSizeInMB = file.size / 1024 / 1024;
-      if (fileSizeInMB > 500) {
+      if (fileSizeInMB > 50) {
         toast({
           title: "Audio file too large",
-          description: "Please use an audio file smaller than 500MB",
+          description: `Please use an audio file smaller than 50MB. Selected file is ${fileSizeInMB.toFixed(2)}MB. Please compress your file or upgrade your Supabase plan for larger file limits.`,
           variant: "destructive"
         });
         return;
@@ -85,7 +85,7 @@ export const AudioUploader: React.FC<AudioUploaderProps> = ({
         </span>
       </div>
       <p className="text-xs text-muted-foreground mt-1">
-        Upload MP3, WAV, FLAC, or other audio files (max 500MB)
+        Upload MP3, WAV, FLAC, or other audio files (max 50MB)
       </p>
       {currentItem.audioUrl && (
         <div className="mt-2">

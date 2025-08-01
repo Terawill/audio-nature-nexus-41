@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 
 export interface FileUploadResult {
@@ -136,8 +137,8 @@ export class FileUploadService {
   }
 
   private static async compressAudioIfNeeded(file: File): Promise<File> {
-    // For files larger than 250MB, we should consider compression
-    const maxSizeBeforeCompression = 250 * 1024 * 1024; // 250MB
+    // For files larger than 40MB, we should consider compression
+    const maxSizeBeforeCompression = 40 * 1024 * 1024; // 40MB
     
     if (file.size > maxSizeBeforeCompression) {
       console.log(`🗜️ File size (${(file.size / 1024 / 1024).toFixed(2)}MB) exceeds threshold, considering compression`);
@@ -149,8 +150,8 @@ export class FileUploadService {
   }
 
   private static async compressVideoIfNeeded(file: File): Promise<File> {
-    // For files larger than 250MB, we should consider compression
-    const maxSizeBeforeCompression = 250 * 1024 * 1024; // 250MB
+    // For files larger than 40MB, we should consider compression
+    const maxSizeBeforeCompression = 40 * 1024 * 1024; // 40MB
     
     if (file.size > maxSizeBeforeCompression) {
       console.log(`🗜️ Video file size (${(file.size / 1024 / 1024).toFixed(2)}MB) exceeds threshold, considering compression`);
@@ -176,6 +177,15 @@ export class FileUploadService {
         return {
           success: false,
           error: "Authentication required to upload files"
+        };
+      }
+
+      // Check file size against Supabase limits
+      const maxFileSize = 50 * 1024 * 1024; // 50MB limit for Supabase free tier
+      if (file.size > maxFileSize) {
+        return {
+          success: false,
+          error: `File size (${(file.size / 1024 / 1024).toFixed(2)}MB) exceeds maximum allowed size of 50MB. Please compress your file or upgrade your Supabase plan for larger file limits.`
         };
       }
 

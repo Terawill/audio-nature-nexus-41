@@ -56,8 +56,8 @@ export const BaseMediaUploader: React.FC<BaseMediaUploaderProps> = ({
   const getMaxSize = () => {
     switch (type) {
       case "image": return 10; // 10MB
-      case "audio": return 500; // 500MB
-      case "video": return 500; // 500MB
+      case "audio": return 50; // 50MB to match Supabase limits
+      case "video": return 50; // 50MB to match Supabase limits
       default: return 10;
     }
   };
@@ -74,8 +74,8 @@ export const BaseMediaUploader: React.FC<BaseMediaUploaderProps> = ({
   const getDescription = () => {
     switch (type) {
       case "image": return "Upload a cover image for your portfolio item (JPG, PNG, WebP, GIF)";
-      case "audio": return "Upload an audio preview (MP3, WAV, OGG, M4A, AAC, FLAC, WebM)";
-      case "video": return "Upload a video preview (MP4, WebM, MOV)";
+      case "audio": return "Upload an audio preview (MP3, WAV, OGG, M4A, AAC, FLAC, WebM) - Max 50MB";
+      case "video": return "Upload a video preview (MP4, WebM, MOV) - Max 50MB";
       default: return "";
     }
   };
@@ -133,7 +133,7 @@ export const BaseMediaUploader: React.FC<BaseMediaUploaderProps> = ({
     if (fileSizeInMB > maxSize) {
       toast({
         title: "File Too Large",
-        description: `${type.charAt(0).toUpperCase() + type.slice(1)} files must be smaller than ${maxSize}MB. Selected file is ${fileSizeInMB.toFixed(2)}MB.`,
+        description: `${type.charAt(0).toUpperCase() + type.slice(1)} files must be smaller than ${maxSize}MB. Selected file is ${fileSizeInMB.toFixed(2)}MB. Please compress your file or upgrade your Supabase plan for larger file limits.`,
         variant: "destructive"
       });
       return;
@@ -328,7 +328,7 @@ export const BaseMediaUploader: React.FC<BaseMediaUploaderProps> = ({
                 <AlertCircle className="h-4 w-4 flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="font-medium">Ready to upload</p>
-                  <p>Select a file and click 'Upload' to save it to Supabase Storage.</p>
+                  <p>Select a file and click 'Upload' to save it to Supabase Storage. Maximum file size: {getMaxSize()}MB</p>
                 </div>
               </>
             )}
