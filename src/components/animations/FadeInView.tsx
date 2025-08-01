@@ -18,24 +18,43 @@ const FadeInView: React.FC<FadeInViewProps> = ({
   duration = 0.6
 }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [hasIntersected, setHasIntersected] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => setIsVisible(true), delay * 1000);
+        if (entry.isIntersecting && !hasIntersected) {
+          setHasIntersected(true);
+          if (delay > 0) {
+            setTimeout(() => setIsVisible(true), delay * 1000);
+          } else {
+            setIsVisible(true);
+          }
         }
       },
-      { threshold: 0.1 }
+      { 
+        threshold: 0.1,
+        rootMargin: '50px' // Trigger slightly before element enters viewport
+      }
     );
 
     if (ref.current) {
       observer.observe(ref.current);
     }
 
-    return () => observer.disconnect();
-  }, [delay]);
+    // Fallback: If intersection observer doesn't work, show content after delay
+    const fallbackTimer = setTimeout(() => {
+      if (!hasIntersected) {
+        setIsVisible(true);
+      }
+    }, 1000 + (delay * 1000));
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(fallbackTimer);
+    };
+  }, [delay, hasIntersected]);
 
   const getInitialTransform = () => {
     switch (direction) {
