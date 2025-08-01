@@ -16,10 +16,10 @@ const PortfolioFilters: React.FC<PortfolioFiltersProps> = ({
 }) => {
   return (
     <div className="w-full">
-      {/* Mobile: Horizontal scrollable filters with better touch targets */}
+      {/* Mobile: Horizontal scrollable filters with proper containment */}
       <div className="block sm:hidden">
-        <ScrollArea className="w-full whitespace-nowrap pb-2">
-          <div className="flex space-x-3 px-2 py-2 min-w-max">
+        <div className="w-full overflow-x-auto scrollbar-hide">
+          <div className="flex space-x-3 px-4 py-2 w-max">
             {categories.map((category) => (
               <Button
                 key={category}
@@ -36,7 +36,7 @@ const PortfolioFilters: React.FC<PortfolioFiltersProps> = ({
               </Button>
             ))}
           </div>
-        </ScrollArea>
+        </div>
       </div>
 
       {/* Tablet: Centered flex wrap with better spacing */}

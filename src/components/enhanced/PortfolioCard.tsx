@@ -46,122 +46,128 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ item }) => {
   };
 
   return (
-    <Card3D intensity="medium" glowEffect={true} className="group">
-      <Card className="overflow-hidden transition-all duration-500 border-0 bg-white dark:bg-gray-800 transform h-full">
-        {/* Cover Image with Hover Sound Preview */}
-        <div className="relative h-48 overflow-hidden">
-          {item.audioUrl && !isMobile ? (
-            <HoverSoundPreview audioUrl={item.audioUrl} title={item.title} className="h-full w-full">
-              {item.coverImageUrl ? (
-                <img 
-                  src={item.coverImageUrl} 
-                  alt={item.title} 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
-                />
-              ) : (
-                <div className="w-full h-full bg-gradient-to-br from-nature-sage to-nature-mist dark:from-gray-700 dark:to-gray-600 flex items-center justify-center">
-                  <div className="text-nature-forest dark:text-white text-4xl font-bold opacity-20">
-                    {item.title.charAt(0)}
+    <div className="w-full h-full">
+      <Card3D intensity="medium" glowEffect={true} className="group h-full">
+        <Card className="overflow-hidden transition-all duration-500 border-0 bg-white dark:bg-gray-800 transform h-full flex flex-col">
+          {/* Cover Image with Hover Sound Preview */}
+          <div className="relative h-48 sm:h-52 overflow-hidden shrink-0">
+            {item.audioUrl && !isMobile ? (
+              <HoverSoundPreview audioUrl={item.audioUrl} title={item.title} className="h-full w-full">
+                {item.coverImageUrl ? (
+                  <img 
+                    src={item.coverImageUrl} 
+                    alt={item.title} 
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-nature-sage to-nature-mist dark:from-gray-700 dark:to-gray-600 flex items-center justify-center">
+                    <div className="text-nature-forest dark:text-white text-3xl sm:text-4xl font-bold opacity-20">
+                      {item.title.charAt(0)}
+                    </div>
                   </div>
-                </div>
-              )}
-            </HoverSoundPreview>
-          ) : (
-            <>
-              {item.coverImageUrl ? (
-                <img 
-                  src={item.coverImageUrl} 
-                  alt={item.title} 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
-                />
-              ) : (
-                <div className="w-full h-full bg-gradient-to-br from-nature-sage to-nature-mist dark:from-gray-700 dark:to-gray-600 flex items-center justify-center">
-                  <div className="text-nature-forest dark:text-white text-4xl font-bold opacity-20">
-                    {item.title.charAt(0)}
+                )}
+              </HoverSoundPreview>
+            ) : (
+              <>
+                {item.coverImageUrl ? (
+                  <img 
+                    src={item.coverImageUrl} 
+                    alt={item.title} 
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-nature-sage to-nature-mist dark:from-gray-700 dark:to-gray-600 flex items-center justify-center">
+                    <div className="text-nature-forest dark:text-white text-3xl sm:text-4xl font-bold opacity-20">
+                      {item.title.charAt(0)}
+                    </div>
                   </div>
-                </div>
-              )}
-            </>
-          )}
-          
-          {/* Featured Badge */}
-          {item.featured && (
-            <div className="absolute top-3 right-3 animate-pulse">
-              <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white border-0 shadow-lg">
-                <Star className="w-3 h-3 mr-1" />
-                Featured
+                )}
+              </>
+            )}
+            
+            {/* Featured Badge */}
+            {item.featured && (
+              <div className="absolute top-2 right-2 sm:top-3 sm:right-3 animate-pulse">
+                <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white border-0 shadow-lg text-xs">
+                  <Star className="w-3 h-3 mr-1" />
+                  Featured
+                </Badge>
+              </div>
+            )}
+
+            {/* Category Badge */}
+            <div className="absolute top-2 left-2 sm:top-3 sm:left-3 transform transition-transform duration-300 group-hover:scale-110">
+              <Badge className={`${getCategoryColor(item.category)} text-xs`}>
+                {item.category}
               </Badge>
             </div>
-          )}
 
-          {/* Category Badge */}
-          <div className="absolute top-3 left-3 transform transition-transform duration-300 group-hover:scale-110">
-            <Badge className={getCategoryColor(item.category)}>
-              {item.category}
-            </Badge>
+            {/* Media Type Indicators */}
+            <MediaTypeBadges item={item} />
           </div>
 
-          {/* Media Type Indicators */}
-          <MediaTypeBadges item={item} />
-        </div>
-
-        <CardContent className="p-6">
-          <div className="space-y-4">
-            <div>
-              <h3 className="font-bold text-lg text-nature-forest dark:text-white group-hover:text-nature-leaf dark:group-hover:text-blue-400 transition-colors duration-300">
-                {item.title}
-              </h3>
-              <div className="flex items-center text-sm text-nature-bark dark:text-gray-400">
-                <User className="w-4 h-4 mr-1" />
-                {item.client}
-              </div>
-              
-              {/* Date information with priority for recorded date */}
-              <div className="flex flex-col gap-1 mt-2 text-xs text-nature-bark dark:text-gray-400">
+          <CardContent className="p-4 sm:p-6 flex-1 flex flex-col">
+            <div className="space-y-3 sm:space-y-4 flex-1">
+              <div>
+                <h3 className="font-bold text-base sm:text-lg text-nature-forest dark:text-white group-hover:text-nature-leaf dark:group-hover:text-blue-400 transition-colors duration-300 line-clamp-2">
+                  {item.title}
+                </h3>
+                <div className="flex items-center text-xs sm:text-sm text-nature-bark dark:text-gray-400 mt-1">
+                  <User className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+                  <span className="truncate">{item.client}</span>
+                </div>
+                
+                {/* Date information with priority for recorded date */}
                 {item.recordedDate && (
-                  <div className="flex items-center">
+                  <div className="flex items-center mt-2 text-xs text-nature-bark dark:text-gray-400">
                     <Clock className="w-3 h-3 mr-1" />
                     <span className="font-medium">Completed:</span>
                     <span className="ml-1">{formatDate(item.recordedDate)}</span>
                   </div>
                 )}
               </div>
+
+              <p className="text-nature-bark dark:text-gray-300 text-xs sm:text-sm line-clamp-3 flex-1">
+                {item.description}
+              </p>
+
+              {/* Audio Player Section */}
+              {validateAudioUrl(item.audioUrl) && (
+                <div className="py-2">
+                  <AudioPlayerManager 
+                    audioUrl={item.audioUrl} 
+                    title={item.title} 
+                    variant="compact" 
+                  />
+                </div>
+              )}
+
+              {/* Video Player Section */}
+              {hasValidMedia(item.videoUrl) && (
+                <VideoPlayerSection videoUrl={item.videoUrl} />
+              )}
+
+              {/* External Links Section */}
+              {item.externalLinks && item.externalLinks.length > 0 && (
+                <ExternalLinksSection links={item.externalLinks} />
+              )}
+
+              {/* View Details Button */}
+              <div className="pt-2 mt-auto">
+                <Button asChild className="w-full bg-nature-forest hover:bg-nature-leaf text-white text-sm h-9 sm:h-10">
+                  <Link to={`/portfolio/${item.id}`} className="flex items-center justify-center">
+                    View Full Details
+                    <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 ml-2" />
+                  </Link>
+                </Button>
+              </div>
             </div>
-
-            <p className="text-nature-bark dark:text-gray-300 text-sm line-clamp-3">
-              {item.description}
-            </p>
-
-            {/* Audio Player Section */}
-            {validateAudioUrl(item.audioUrl) && (
-              <AudioPlayerManager 
-                audioUrl={item.audioUrl} 
-                title={item.title} 
-                variant="default" 
-              />
-            )}
-
-            {/* Video Player Section */}
-            {hasValidMedia(item.videoUrl) && (
-              <VideoPlayerSection videoUrl={item.videoUrl} />
-            )}
-
-            {/* External Links Section */}
-            <ExternalLinksSection links={item.externalLinks} />
-
-            {/* View Details Button */}
-            <div className="pt-2">
-              <Button asChild className="w-full bg-nature-forest hover:bg-nature-leaf text-white">
-                <Link to={`/portfolio/${item.id}`} className="flex items-center justify-center">
-                  View Full Details
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    </Card3D>
+          </CardContent>
+        </Card>
+      </Card3D>
+    </div>
   );
 };
 
