@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { usePortfolioData } from "@/hooks/usePortfolioData";
 import { type PortfolioItem } from "@/types/portfolio";
@@ -25,19 +24,31 @@ const PortfolioGridEnhanced: React.FC<PortfolioGridEnhancedProps> = ({
   const items = showFeaturedOnly ? featuredItems : portfolioItems;
   const displayItems = limit ? items.slice(0, limit) : items;
 
-  const categories = ["All", ...Array.from(new Set(portfolioItems.map(item => item.category)))];
-
-  const filteredItems = selectedCategory === "All" 
-    ? displayItems 
-    : displayItems.filter(item => item.category === selectedCategory);
-
-  if (isLoading) {
+  // Show loading spinner initially or when there's no data yet
+  if (isLoading && items.length === 0) {
     return (
       <div className="flex items-center justify-center py-8 sm:py-16 min-h-[40vh]">
         <div className="text-center px-4">
           <LoadingSpinner size="lg" />
           <p className="mt-4 text-nature-bark dark:text-gray-300 text-sm sm:text-base">
             Loading portfolio items...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // Ensure content is visible even without animations
+  if (!isLoading && items.length === 0 && !error) {
+    return (
+      <div className="text-center py-12 sm:py-16 px-4 min-h-[30vh] flex items-center justify-center">
+        <div className="max-w-md mx-auto">
+          <div className="text-4xl sm:text-6xl mb-4 opacity-20">🎵</div>
+          <h3 className="text-lg font-medium text-nature-forest dark:text-white mb-2">
+            No projects found
+          </h3>
+          <p className="text-nature-bark dark:text-gray-300 text-sm sm:text-base">
+            No portfolio items available yet.
           </p>
         </div>
       </div>
@@ -71,6 +82,11 @@ const PortfolioGridEnhanced: React.FC<PortfolioGridEnhancedProps> = ({
       </div>
     );
   }
+
+  const categories = ["All", ...Array.from(new Set(portfolioItems.map(item => item.category)))];
+  const filteredItems = selectedCategory === "All" 
+    ? displayItems 
+    : displayItems.filter(item => item.category === selectedCategory);
 
   return (
     <div className="w-full min-h-[50vh]">
