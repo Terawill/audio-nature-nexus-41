@@ -31,7 +31,7 @@ const PortfolioPage = () => {
       <div className="min-h-screen bg-white dark:bg-gray-900">
         <UnifiedNavbar />
         
-        <main className="pt-16 sm:pt-20 pb-8">
+         <main className="pt-20 sm:pt-20 pb-8">
           <div className="w-full">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <FadeInView direction="up">
